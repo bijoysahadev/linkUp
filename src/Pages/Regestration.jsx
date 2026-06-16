@@ -51,7 +51,13 @@ const TextFieldCustomize = styled(TextField) ({
 const Regestration = () => {
   let [email,setEmail]=useState ("")
   let [name,setName]=useState(" ")
-  let [password,setPassword]=(" ")
+  let [password,setPassword]=useState(" ")
+  let handleSignUp =()=> {
+    console.log(email);
+    console.log(name);
+    console.log(password);
+    
+  }
   return (
    <>
    <Grid container spacing={2}>
@@ -61,12 +67,12 @@ const Regestration = () => {
            <div className='w-140' >
           <h1 className='text-[#11175D]  font-bold text-[34px] ' >Get started with easily register</h1>
           <p className='  curspor-pointer text-[20px] pt-3 pb-10 font-black font-normal' >Free register and you can enjoy it</p>
-            <TextFieldCustomize  value={name} onChange={()=>setEmail(e.target.value)} type='text' id="Email Address"
+            <TextFieldCustomize  value={email} onChange={(e)=>setEmail(e.target.value)} type='text' id="Email Address"
             label="Email Address" variant="outlined" />
-            <TextFieldCustomize  onChange={()=>setName(e.target.value)} type='text'  id="outlined-basic" label="Ful name" variant="outlined" />
-            <TextFieldCustomize   onChange={()=>setPassword(e.target.value)} type='password' id="outlined-basic" label="Password" variant="outlined" />
+            <TextFieldCustomize  value={name}  onChange={(e)=>setName(e.target.value)} type='text'  id="outlined-basic" label="Ful name" variant="outlined" />
+            <TextFieldCustomize    value={password}  onChange={(e)=>setPassword(e.target.value)} type='password' id="outlined-basic" label="Password" variant="outlined" />
             <br />
-            <ButtonCustomize variant="contained">Sign up</ButtonCustomize>
+            <ButtonCustomize  onClick={handleSignUp} variant="contained">Sign up</ButtonCustomize>
            <div className='w-8/12' >
              <p className='  text-center   text-sm text-[#03014C] font-normal  ' >Already  have an account ?   <Link to="/Login" ><span className='text-[#EA6C00]'>Sign In</span></Link>  </p>
            </div>
