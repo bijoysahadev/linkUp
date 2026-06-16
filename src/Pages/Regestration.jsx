@@ -6,6 +6,10 @@ import Login from "../assets/signUp.png";
 import Button from '@mui/material/Button';
 import styled from '@emotion/styled';
 import { Link } from 'react-router-dom';
+import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+import { log } from 'firebase/firestore/pipelines';
+
+
 
 const ButtonCustomize = styled(Button) ({
  padding : '20px 0px',
@@ -49,13 +53,73 @@ const TextFieldCustomize = styled(TextField) ({
 
 
 const Regestration = () => {
+const auth = getAuth();
+
   let [email,setEmail]=useState ("")
-  let [name,setName]=useState(" ")
-  let [password,setPassword]=useState(" ")
+  let [name,setName]=useState("")
+  let [password,setPassword]=useState("")
+  let [emailError,setemailError]=useState("")
+  let [nameError,setNameError]=useState("")
+  let [passwordError,setPasswordError]=useState("")
+  let emailRegex =/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/
+  let passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@.#$!%*?&])[A-Za-z\d@.#$!%*?&]{8,15}$/;
+  let handleEmail=(e) =>{
+    setEmail(e.target.value)
+    setemailError("")
+   
+  }
+
+let handleName =(e)=> {
+  setName(e.target.value)
+   setNameError("")
+
+}
+let handlePassword =(e)=> {
+  setPassword(e.target.value)
+  setPasswordError("")
+}
   let handleSignUp =()=> {
-    console.log(email);
-    console.log(name);
-    console.log(password);
+    if (!email) {
+      setemailError("Give me your email please")
+    }
+    if (!emailRegex.test(email)) {
+      setemailError("give me a valid email")
+    }
+    if (!name) {
+      setNameError("give me your name");
+      
+    }
+    if (!password) {
+      setPasswordError("give me your password")
+    }
+    if (!passwordRegex.test(password)  ){
+      setPasswordError("Enter a valid password")
+    }
+    if (email && emailRegex.test(email)  && name && password  )   {
+      console.log("database e data jabe");
+      
+    }
+    createUserWithEmailAndPassword(auth, email, password)
+  .then((userCredential) => {
+     console.log(userCredential);
+     
+  })
+  .catch((error) => {
+    const errorCode = error.code;
+     if (errorCode.includes("auth/weak-password"))
+      setPasswordError("your password is so much weak");
+      if (errorCode.includes("auth/email-already-in-use")) {
+         setemailError("email already in use");
+        
+      }
+    console.log(errorCode);
+    
+    // ..
+  });
+
+
+
+
     
   }
   return (
@@ -67,10 +131,19 @@ const Regestration = () => {
            <div className='w-140' >
           <h1 className='text-[#11175D]  font-bold text-[34px] ' >Get started with easily register</h1>
           <p className='  curspor-pointer text-[20px] pt-3 pb-10 font-black font-normal' >Free register and you can enjoy it</p>
-            <TextFieldCustomize  value={email} onChange={(e)=>setEmail(e.target.value)} type='text' id="Email Address"
+            <TextFieldCustomize  value={email}  onChange={handleEmail}   type='text' id="Email Address"
             label="Email Address" variant="outlined" />
-            <TextFieldCustomize  value={name}  onChange={(e)=>setName(e.target.value)} type='text'  id="outlined-basic" label="Ful name" variant="outlined" />
-            <TextFieldCustomize    value={password}  onChange={(e)=>setPassword(e.target.value)} type='password' id="outlined-basic" label="Password" variant="outlined" />
+           {
+             emailError && <p className='bg-red-500 w-4/5 py-2 rounded-[10px] px-2  mt-2 text-white' >{emailError}</p>
+           }
+            <TextFieldCustomize  value={name}  onChange={handleName} type='text'  id="outlined-basic" label="Ful name" variant="outlined" />
+               {
+             nameError && <p className='bg-red-500 w-4/5 py-2 rounded-[10px] px-2  mt-2 text-white' >{nameError}</p>
+           }
+            <TextFieldCustomize    value={password}  onChange={handlePassword}    id="outlined-basic" label="Password" variant="outlined" />
+               {
+             passwordError && <p className='bg-red-500 w-4/5 py-2 rounded-[10px] px-2  mt-2 text-white' >{passwordError}</p>
+           }
             <br />
             <ButtonCustomize  onClick={handleSignUp} variant="contained">Sign up</ButtonCustomize>
            <div className='w-8/12' >
