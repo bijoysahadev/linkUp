@@ -115,8 +115,11 @@ const Regestration = () => {
       }).then (()=> {
          sendEmailVerification(auth.currentUser)
           .then(() => {
-            // Email verification sent!
-            // ...
+            userCredential.user
+            console.log("userCredential.user");
+            
+          setLoader(false);
+          toast.success("Regestration Successfully")
           });
       })
 

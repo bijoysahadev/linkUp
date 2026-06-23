@@ -102,8 +102,15 @@ const Login = () => {
   
       signInWithEmailAndPassword(auth, email, password)
         .then((userCredential) => {
-          
-       navigate("/Home")
+          if  (userCredential.user.emailVerified) {
+            toast.success("Login Successfully")
+            setLoader*false
+                navigate("/Home")
+          }
+     else {
+      toast.error("Please verify Your Email")
+       setLoader(false)
+     }
         })
         .catch((error) => {
           setLoader(false)
