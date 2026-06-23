@@ -6,7 +6,7 @@ import Login from "../assets/signUp.png";
 import Button from '@mui/material/Button';
 import styled from '@emotion/styled';
 import { Link } from 'react-router-dom';
-import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+import { getAuth, createUserWithEmailAndPassword, sendEmailVerification } from "firebase/auth";
 import { log } from 'firebase/firestore/pipelines';
 import { CircularProgress } from 'react-loader-spinner';
 import { toast, ToastContainer } from 'react-toastify';
@@ -111,7 +111,15 @@ const Regestration = () => {
         console.log(userCredential.user);
         setLoader(false)
         toast.success("Register Succesfully")
+       
+      }).then (()=> {
+         sendEmailVerification(auth.currentUser)
+          .then(() => {
+            // Email verification sent!
+            // ...
+          });
       })
+
       .catch((error) => {
         const errorCode = error.code;
         setLoader(false)
@@ -175,19 +183,19 @@ const Regestration = () => {
                 <p className='  text-center   text-sm text-[#03014C] font-normal  ' >Already  have an account ?   <Link to="/" ><span className='text-[#EA6C00]'>Sign In</span></Link>  </p>
               </div>
             </div>
-          <ToastContainer
-position="top-center"
-autoClose={5000}
-hideProgressBar={false}
-newestOnTop={false}
-closeOnClick={false}
-rtl={false}
-pauseOnFocusLoss
-draggable
-pauseOnHover
-theme="light"
+            <ToastContainer
+              position="top-center"
+              autoClose={5000}
+              hideProgressBar={false}
+              newestOnTop={false}
+              closeOnClick={false}
+              rtl={false}
+              pauseOnFocusLoss
+              draggable
+              pauseOnHover
+              theme="light"
 
-/>
+            />
           </div>
         </Grid>
         <Grid size={6}>

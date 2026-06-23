@@ -10,6 +10,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { log } from 'firebase/firestore/pipelines';
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import { toast, ToastContainer } from 'react-toastify';
+import { CircularProgress } from 'react-loader-spinner';
 
 const ButtonCustomize = styled(Button)({
   padding: '20px 0px',
@@ -62,6 +63,7 @@ const Login = () => {
   let [loader, setLoader] = useState(false)
   let emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/
   let passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@.#$!%*?&])[A-Za-z\d@.#$!%*?&]{8,15}$/;
+  
  
 
 
@@ -94,14 +96,14 @@ const Login = () => {
     }
     if (email && password && emailRegex.test(email)) {
       // console.log("login successfull");
-  setLoader(true)
+  setLoader(true);
+ 
       // 
-      navigate("/Home")
-    setLoader(false)
+  
       signInWithEmailAndPassword(auth, email, password)
         .then((userCredential) => {
           
-
+       navigate("/Home")
         })
         .catch((error) => {
           setLoader(false)
@@ -137,7 +139,23 @@ const Login = () => {
                 passwordError && <p className='bg-red-500 w-4/5 py-2 rounded-[10px] px-2  mt-2 text-white' >{passwordError}</p>
               }
               <br />
-              <ButtonCustomize onClick={handleLogin} variant="contained">Login to Continue</ButtonCustomize>
+                {
+                loader ? <CircularProgress
+                  height="100"
+                  width="100"
+                  color="#4fa94d"
+                  ariaLabel="circular-progress-loading"
+                  wrapperStyle={{
+                    display: 'flex', justifyContent: 'center', textAlign: 'center',
+                    alignItems: 'center', width: '100%',
+                    margin: '20px 0'
+                  }}
+                  wrapperClass="wrapper-class"
+                  visible={true}
+                  strokeWidth={2}
+                  animationDuration={1}
+                /> : <ButtonCustomize onClick={handleLogin} variant="contained">Login</ButtonCustomize>
+              }
               <p className=' ml-24 mb-10 text-base cursor-pointer text-black font-bold' >Forget Password</p>
 
               <p className=' ml-16  cursor-pointer  text-start   text-sm text-[#03014C] font-normal  ' >Don’t have an account ?
