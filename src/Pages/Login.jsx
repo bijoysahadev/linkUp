@@ -8,9 +8,14 @@ import styled from '@emotion/styled';
 import { FcGoogle } from "react-icons/fc";
 import { Link, useNavigate } from 'react-router-dom';
 import { log } from 'firebase/firestore/pipelines';
-import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import { getAuth, signInWithEmailAndPassword  ,signInWithPopup, GoogleAuthProvider,sendPasswordResetEmail } from "firebase/auth";
 import { toast, ToastContainer } from 'react-toastify';
 import { CircularProgress } from 'react-loader-spinner';
+
+
+
+
+const provider = new GoogleAuthProvider();
 
 const ButtonCustomize = styled(Button)({
   padding: '20px 0px',
@@ -21,6 +26,18 @@ const ButtonCustomize = styled(Button)({
   fontFamily: "",
   borderRadius: "87px",
   textTransform: "capitalize",
+  marginTop: '51px',
+  marginBottom: '31px'
+})
+const ForgetButtonCustomize = styled(Button)({
+  padding: '15px 0px',
+  width: "80%",
+  background: '#5B36F5',
+  fontSize: "16px",
+  fontWeight: "500",
+  fontFamily: "",
+  borderRadius: "87px",
+  color : "white",
   marginTop: '51px',
   marginBottom: '31px'
 })
@@ -57,16 +74,55 @@ const Login = () => {
   const auth = getAuth();
   const navigate=useNavigate()
   let [email, setEmail] = useState("")
+  let [forgetEmail,setForgetEmail]=useState(" ")
   let [password, setPassword] = useState("")
   let [emailError, setEmailError] = useState("")
   let [passwordError, setPasswordError] = useState("")
   let [loader, setLoader] = useState(false)
   let emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/
   let passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@.#$!%*?&])[A-Za-z\d@.#$!%*?&]{8,15}$/;
+  let [show,setShow]=useState(false)
+  let handleSend = (e)=>{
+    //  console.log("reset email");
+     sendPasswordResetEmail(auth, forgetEmail)
+  .then((result) => {
+    console.log(result);
+    if (result===null) {
+      toast.error("invalid-credentials")
+    }
   
+   
+  })
+  .catch((error) => {
+    const errorCode = error.code;
+    const errorMessage = error.message;
+    if (errorCode.includes("auth/invalid-email"))
+ console.log(errorCode); {
+toast.error("invalid-credentials")}
  
+  });
+    
+  }
+  let handleForgetPassword= ()=> {
+   setShow(true)
+    
+  }
+  let  handleGoogle= ()=> {
+    
 
-
+  signInWithPopup(auth, provider)
+  .then((result) => {
+  navigate("/Home")
+    
+ 
+  }).catch((error) => {
+    console.log(error);
+    
+   
+  });
+    
+  }
+  
   let handlePassword = (e) => {
     setPassword(e.target.value)
     setPasswordError("")
@@ -104,7 +160,7 @@ const Login = () => {
         .then((userCredential) => {
           if  (userCredential.user.emailVerified) {
             toast.success("Login Successfully")
-            setLoader*false
+            setLoader(false)
                 navigate("/Home")
           }
      else {
@@ -128,11 +184,27 @@ const Login = () => {
     }
   }
   return (
-    <>
-      <Grid container spacing={2}>
+    <>  
+    {
+       show   ? <div  className=' absolute top-0 left-0 w-full h-screen bg-black/60 flex justify-center items-center'>
+          <div className=' rounded-sm w-[600px] py-[100px] px-[20px] bg-amber-50' >
+            <h2 className='text-4xl text-center font-black font-bold' >Forget Your Password </h2>
+             <TextFieldCustomize  onChange={()=> setForgetEmail(e.target.value)} type='email'  placeholder='Enter your name'   id="standard-basic" label="Enter Your Email" variant="standard" />
+           <div className='flex gap-x-4' >
+              <ForgetButtonCustomize onClick={()=> setShow(false)} >
+          
+                   Back To Login
+             </ForgetButtonCustomize>
+             <ForgetButtonCustomize onClick={handleSend} >
+                 Send
+             </ForgetButtonCustomize>
+           </div>
+          </div>
+      </div>
+         :  <Grid container spacing={2}>
         <Grid size={6}>
           <div className='flex items-center justify-end h-screen '>
-            <div className='w-140' >
+            <div className='w-140    'onClick={handleGoogle} >
               <h1 className='text-[#11175D]  font-bold text-[34px] ' >Login to your account!</h1>
               <Button sx={{ padding: "12px 30px ", marginTop: "20px " }} variant="outlined" startIcon={<FcGoogle />}>
                 Login with Google
@@ -163,7 +235,7 @@ const Login = () => {
                   animationDuration={1}
                 /> : <ButtonCustomize onClick={handleLogin} variant="contained">Login</ButtonCustomize>
               }
-              <p className=' ml-24 mb-10 text-base cursor-pointer text-black font-bold' >Forget Password</p>
+              <p  onClick={handleForgetPassword} className=' ml-24 mb-10 text-base cursor-pointer text-black font-bold' >Forget Password</p>
 
               <p className=' ml-16  cursor-pointer  text-start   text-sm text-[#03014C] font-normal  ' >Don’t have an account ?
                  <Link to={"/Regestration"}><span className='text-[#EA6C00]'>Sign up  </span>
@@ -191,6 +263,10 @@ theme="light"
 
 
       </Grid>
+    }
+    
+    
+     
     </>
   )
 }
