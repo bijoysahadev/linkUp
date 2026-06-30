@@ -14,10 +14,10 @@ const Sidebar = () => {
           <Image   src={Profile} className={`w-full h-full rounded-full`} /> </div>
         <div  className=''   >
           <ul className='flex flex-col gap-y-10 '   >
-            <li>  <IoHomeOutline  className='text-5xl   text-white' /></li>
-            <li>  <LuMessageCircleMore className='text-5xl text-white '  /></li>
-            <li> <IoNotificationsOff  className='text-5xl  text-white'  /> </li>
-            <li>  <IoSettingsOutline className='text-5xl text-white '  />   </li>
+            <li className='text-5xl   relative  after:absolute after:left-[67px] after:top-1/2  after:w-[160px] after:h-16  after:bg-[white] after:content-[""]  after:rounded-l-md text-[#5F35F5]  after:-translate-1/2   before:absolute before:top-1/2 before:-translate-y-1/2  before:-right-25 before:bg-[#5F35F5] before:w-[10px] before:h-16 before:content-[""]  before:rounded-l-md  before:z-19 ' >  <IoHomeOutline  className='relative top-0 left-0 z-10'   /></li>
+            <li className='text-5xl   relative  after:absolute after:left-0  after:rounded-l-md after:top-1/2 after:w-[130px] after:h-16  after:-translate-y-1/2 after:bg-white after:content-[""]  text-[#5F35F5] ' >  <LuMessageCircleMore  className='relative top-0 left-0 z-10' /></li>
+            <li className='text-5xl   relative  after:absolute after:left-0  after:rounded-l-md after:top-1/2 after:w-[130px] after:h-16 after:-translate-y-1/2  after:bg-white after:content-[""]  text-[#5F35F5] ' > <IoNotificationsOff  className='relative top-0 left-0 z-10'   /> </li>
+            <li className='text-5xl   relative  after:absolute after:left-0  after:rounded-l-md after:top-1/2 after:w-[130px] after:h-16 after:-translate-y-1/2  after:bg-white after:content-[""]  text-[#5F35F5] ' >  <IoSettingsOutline   className='relative top-0 left-0 z-10'  />   </li>
            
           </ul>
         </div>
