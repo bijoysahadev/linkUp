@@ -22,16 +22,15 @@ const Sidebar = () => {
             <li onClick={handleList} className='text-5xl   relative  after:absolute after:left-[67px] after:top-1/2  after:w-[160px] after:h-16  after:bg-[white] after:content-[""]  after:rounded-l-md text-[#5F35F5]  after:-translate-1/2   before:absolute before:top-1/2 before:-translate-y-1/2  before:-right-25 before:bg-[#5F35F5] before:w-[10px] before:h-16 before:content-[""]  before:rounded-l-xl  before:z-19 ' >  <LuMessageCircleMore  className='relative top-0 left-0 z-10' /></li>
             <li onClick={handleList} className='text-5xl   relative  after:absolute after:left-[67px] after:top-1/2  after:w-[160px] after:h-16  after:bg-[white] after:content-[""]  after:rounded-l-md text-[#5F35F5]  after:-translate-1/2   before:absolute before:top-1/2 before:-translate-y-1/2  before:-right-25 before:bg-[#5F35F5] before:w-[10px] before:h-16 before:content-[""]  before:rounded-l-xl  before:z-19 ' > <IoNotificationsOff  className='relative top-0 left-0 z-10'   /></li>
             <li onClick={handleList} className='text-5xl   relative  after:absolute after:left-[67px] after:top-1/2  after:w-[160px] after:h-16  after:bg-[white] after:content-[""]  after:rounded-l-md text-[#5F35F5]  after:-translate-1/2   before:absolute before:top-1/2 before:-translate-y-1/2  before:-right-25 before:bg-[#5F35F5] before:w-[10px] before:h-16 before:content-[""]  before:rounded-l-xl  before:z-19 ' >  <IoSettingsOutline   className='relative top-0 left-0 z-10'  /> </li>
-            {/* <li onClick={handleList} className='text-5xl   relative  after:absolute after:left-  after:rounded-l-md after:top-1/2 after:w-[160px] after:h-16  after:-translate-y-1/2 after:bg-white after:content-[""]  text-[#5F35F5]  before:absolute before:top-1/2 before:-translate-y-1/2  before:-right-25 before:bg-[#5F35F5] before:w-[10px] before:h-16 before:content-[""]  before:rounded-l-xl  before:z-19  ' >  <LuMessageCircleMore  className='relative top-0 left-0 z-10' /></li>
-            <li onClick={handleList} className='text-5xl   relative  after:absolute after:left-0  after:rounded-l-md after:top-1/2 after:w-[160px] after:h-16 after:-translate-y-1/2  after:bg-white after:content-[""]  text-[#5F35F5] before:absolute before:top-1/2 before:-translate-y-1/2  before:-right-25 before:bg-[#5F35F5] before:w-[10px] before:h-16 before:content-[""]  before:rounded-l-xl  before:z-19   ' > <IoNotificationsOff  className='relative top-0 left-0 z-10'   /> </li>
-            <li onClick={handleList} className='text-5xl   relative  after:absolute after:left-[67px]  after:rounded-l-md after:top-1/2 after:w-[160px] after:h-16 after:-translate-y-1/2  after:bg-white after:content-[""]  text-[#5F35F5]  before:absolute before:top-1/2 before:-translate-y-1/2  before:-right-25 before:bg-[#5F35F5] before:w-[10px] before:h-16 before:content-[""]  before:rounded-l-xl  before:z-19  ' >  <IoSettingsOutline   className='relative top-0 left-0 z-10'  />   </li> */}
+          
            
           </ul>
         </div>
         <div>
           <ul>
-            <li><LuLogOut  className='text-5xl text-white' /></li>
+               <li onClick={handleList} className='text-5xl   relative  after:absolute after:left-[67px] after:top-1/2  after:w-[160px] after:h-16  after:bg-[white] after:content-[""]  after:rounded-l-md text-[#5F35F5]  after:-translate-1/2   before:absolute before:top-1/2 before:-translate-y-1/2  before:-right-25 before:bg-[#5F35F5] before:w-[10px] before:h-16 before:content-[""]  before:rounded-l-xl  before:z-19 ' >  <LuLogOut   className='relative top-0 left-0 z-10' />  </li>
           </ul>
+        
         </div>
        
       </div>
