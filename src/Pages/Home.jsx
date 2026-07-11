@@ -9,33 +9,48 @@ import MakeProfile from '../Componets/MakeProfile';
 import GroupList from '../Layouts/GroupList';
 import FriendList from '../Layouts/FriendList';
 import UserList from '../Layouts/UserList';
+import BlockedList from '../Layouts/BlockedList';
+import MyGroupList from '../Layouts/MyGroupList';
+import FriendRequestList from '../Layouts/FriendRequestList';
 const Home = () => {
   return (
     <div className='py-6'>
       <Grid container spacing={2}>
         <Grid size={4}>
 
-         
-    <GroupList/>
-         
+
+          <GroupList/>
+
         </Grid>
         <Grid size={4}>
 
-         
-    <GroupList/>
-         
+
+          <FriendList/>
+
         </Grid>
         <Grid size={4}>
 
-         
-    <FriendList/>
-         
+
+          <UserList/>
+
         </Grid>
         <Grid size={4}>
 
-         
-      <UserList/>
-         
+
+          <FriendRequestList/>
+
+        </Grid>
+        <Grid size={4}>
+
+
+          <MyGroupList/>
+
+        </Grid>
+        <Grid size={4}>
+
+
+          <BlockedList/>
+
         </Grid>
 
 

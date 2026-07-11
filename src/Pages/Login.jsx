@@ -156,7 +156,12 @@ toast.error("invalid-credentials")}
  
       // 
   
-      signInWithEmailAndPassword(auth, email, password)
+     
+
+      // 
+
+    }
+     signInWithEmailAndPassword(auth, email, password)
         .then((userCredential) => {
           if  (userCredential.user.emailVerified) {
             toast.success("Login Successfully")
@@ -178,10 +183,6 @@ toast.error("invalid-credentials")}
             
 
         });
-
-      // 
-
-    }
   }
   return (
     <>  
