@@ -10,9 +10,9 @@ import { getAuth, createUserWithEmailAndPassword, sendEmailVerification } from "
 import { log } from 'firebase/firestore/pipelines';
 import { CircularProgress } from 'react-loader-spinner';
 import { toast, ToastContainer } from 'react-toastify';
+import { getDatabase, push, ref, set } from "firebase/database";
 
-
-
+import Avatar from '../assets/avatar.jpg';
 
 
 
@@ -58,6 +58,7 @@ const TextFieldCustomize = styled(TextField)({
 
 
 const Regestration = () => {
+   const db = getDatabase();
   const auth = getAuth();
   let [loader, setLoader] = useState(false)
   let [email, setEmail] = useState("")
@@ -112,11 +113,15 @@ const Regestration = () => {
         setLoader(false)
         toast.success("Register Succesfully")
        
-      }).then (()=> {
+      }).then ((userCredential)=> {
          sendEmailVerification(auth.currentUser)
           .then(() => {
-            userCredential.user
-            console.log("userCredential.user");
+            set(push(ref(db, 'userlist/' )), {
+    username: name,
+    email: email,
+    profile_picture : "https://i.ibb.co.com/mVhLkdLD/avatar.webp"
+  });
+        
             
           setLoader(false);
           toast.success("Regestration Successfully")

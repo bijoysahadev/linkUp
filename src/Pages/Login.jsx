@@ -11,6 +11,8 @@ import { log } from 'firebase/firestore/pipelines';
 import { getAuth, signInWithEmailAndPassword  ,signInWithPopup, GoogleAuthProvider,sendPasswordResetEmail } from "firebase/auth";
 import { toast, ToastContainer } from 'react-toastify';
 import { CircularProgress } from 'react-loader-spinner';
+import { getDatabase, push, ref, set } from "firebase/database";
+
 
 
 
@@ -71,6 +73,7 @@ const TextFieldCustomize = styled(TextField)({
 
 
 const Login = () => {
+   const db = getDatabase();
   const auth = getAuth();
   const navigate=useNavigate()
   let [email, setEmail] = useState("")
@@ -112,6 +115,12 @@ toast.error("invalid-credentials")}
 
   signInWithPopup(auth, provider)
   .then((result) => {
+    set(push(ref(db, 'userlist/' )), {
+        username: result.user.displayName,
+        email: result.user.email,
+        profile_picture : "https://i.ibb.co.com/mVhLkdLD/avatar.webp"
+      });
+            
   navigate("/Home")
     
  
@@ -205,9 +214,9 @@ toast.error("invalid-credentials")}
          :  <Grid container spacing={2}>
         <Grid size={6}>
           <div className='flex items-center justify-end h-screen '>
-            <div className='w-140    'onClick={handleGoogle} >
+            <div className='w-140    '>
               <h1 className='text-[#11175D]  font-bold text-[34px] ' >Login to your account!</h1>
-              <Button sx={{ padding: "12px 30px ", marginTop: "20px " }} variant="outlined" startIcon={<FcGoogle />}>
+              <Button   onClick={handleGoogle}  sx={{ padding: "12px 30px ", marginTop: "20px " }} variant="outlined" startIcon={<FcGoogle />}>
                 Login with Google
               </Button>
               <TextFieldCustomize onChange={handleEmail} type='email' value={email} placeholder='Enter your name' id="standard-basic" label="Email Addres" variant="standard" />

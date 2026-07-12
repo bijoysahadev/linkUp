@@ -6,7 +6,7 @@ const MakeProfile = ({mainClassname,profileImage,profileName,profilStatus,button
   return (
    <div className={`flex items-center justify-between border-b border-black/30 pb-2 ${mainClassname} `} >
     <div className='flex items-center gap-x-3' >
-          <div className='w-12 h-12 bg-red-500 rounded-full' >
+          <div className='w-12 h-12  rounded-full' >
     <Image  src={profileImage} className={`w-full h-full rounded-full object-cover`} />
      
     </div>
