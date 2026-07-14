@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Profile from '../assets/Profile.jpg';
 import { IoHomeOutline } from "react-icons/io5";
 import Image from './Image';
@@ -7,11 +7,24 @@ import { IoNotificationsOff } from "react-icons/io5";
 import { IoSettingsOutline } from "react-icons/io5";
 import { LuLogOut } from "react-icons/lu";
 import { Link, useLocation } from 'react-router-dom';
+import { getDatabase, ref, onValue } from "firebase/database";
 const Sidebar = () => {
   let location = useLocation()
   let active = (location.pathname.replace("/", ""));
-
-
+  let [alluser,setAlluser]=useState([])
+  const db = getDatabase()
+    useEffect(()=> {
+      const starCountRef = ref(db, 'userlist/' );
+  onValue(starCountRef, (snapshot) => {
+    let arr=[]
+     snapshot.forEach(item=> {
+      arr.push(item.val())
+    
+      
+     })
+     setAlluser(arr)
+  });
+    },[])
   //  let [active,setActive]=useState(false)
   // let handleList = (name)=> {
   //   console.log(name);
@@ -20,11 +33,17 @@ const Sidebar = () => {
   //   // setActive(true)
 
   // }
+  console.log(alluser);
+  
   return (
     <div className='w-full h-screen flex justify-center items-center ' >
       <div className='bg-[#5F35F5] w-[82%] h-[92%]   rounded-[20px] flex flex-col items-center justify-between py-10'  >
-        <div className='w-25 h-25 rounded-full' >
-          <Image src={Profile} className={`w-full h-full rounded-full`} /> </div>
+ {
+  alluser.map(item=> (
+           <div className='w-25 h-25 rounded-full' >
+          <Image src={item.profile_picture} className={`w-full h-full rounded-full`} /> </div>
+  ))
+ }
         <div className=''   >
           <ul className='flex flex-col gap-y-10 '   >
             <Link to='Home' >

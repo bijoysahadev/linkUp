@@ -12,6 +12,8 @@ import { getAuth, signInWithEmailAndPassword  ,signInWithPopup, GoogleAuthProvid
 import { toast, ToastContainer } from 'react-toastify';
 import { CircularProgress } from 'react-loader-spinner';
 import { getDatabase, push, ref, set } from "firebase/database";
+import { useDispatch } from 'react-redux';
+import { activeuser } from '../slices/userinfoslice';
 
 
 
@@ -73,6 +75,7 @@ const TextFieldCustomize = styled(TextField)({
 
 
 const Login = () => {
+  const dispatch=useDispatch()
    const db = getDatabase();
   const auth = getAuth();
   const navigate=useNavigate()
@@ -173,9 +176,12 @@ toast.error("invalid-credentials")}
      signInWithEmailAndPassword(auth, email, password)
         .then((userCredential) => {
           if  (userCredential.user.emailVerified) {
+
             toast.success("Login Successfully")
             setLoader(false)
                 navigate("/Home")
+                dispatch(activeuser(userCredential.user ))
+                
           }
      else {
       toast.error("Please verify Your Email")

@@ -5,7 +5,12 @@ import TittleList from '../Componets/TittleList'
 import Image from '../Componets/Image';
 import cr7 from '../assets/cr7.png.jpg';
 import { getDatabase, ref, onValue } from "firebase/database";
+import { useSelector } from 'react-redux';
 const UserList = () => { 
+  // const data=useSelector(state=>(state.activeuser.value)
+  // )
+
+  
   const db = getDatabase()
   let [alluser,setAlluser]=useState([])
   useEffect(()=> {
