@@ -13,14 +13,21 @@ const UserList = () => {
   
   const db = getDatabase()
   let [alluser,setAlluser]=useState([])
+  let data=useSelector(state=>state.activeuser.value
+)
+  console.log();
+  
   useEffect(()=> {
     const starCountRef = ref(db, 'userlist/' );
 onValue(starCountRef, (snapshot) => {
   let arr=[]
    snapshot.forEach(item=> {
-    arr.push(item.val())
-  
-    
+ 
+      if (item.val().email!=data.email) {
+       arr.push(item.val())
+      
+      }
+      
    })
    setAlluser(arr)
 });

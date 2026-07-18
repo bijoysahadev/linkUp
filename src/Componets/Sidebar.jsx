@@ -8,19 +8,27 @@ import { IoSettingsOutline } from "react-icons/io5";
 import { LuLogOut } from "react-icons/lu";
 import { Link, useLocation } from 'react-router-dom';
 import { getDatabase, ref, onValue } from "firebase/database";
+import { useSelector } from 'react-redux';
 const Sidebar = () => {
   let location = useLocation()
   let active = (location.pathname.replace("/", ""));
   let [alluser,setAlluser]=useState([])
   const db = getDatabase()
+   let data=useSelector(state=>state.activeuser.value)
+   
+   
     useEffect(()=> {
       const starCountRef = ref(db, 'userlist/' );
   onValue(starCountRef, (snapshot) => {
     let arr=[]
      snapshot.forEach(item=> {
-      arr.push(item.val())
-    
-      
+      // arr.push(item.val())
+      console.log();
+       console.log();
+      if (item.val().email==data.email){
+        arr.push(item.val())
+
+      }
      })
      setAlluser(arr)
   });
@@ -41,7 +49,8 @@ const Sidebar = () => {
  {
   alluser.map(item=> (
            <div className='w-25 h-25 rounded-full' >
-          <Image src={item.profile_picture} className={`w-full h-full rounded-full`} /> </div>
+          <Image src={item.profile_picture} className={`w-full h-full rounded-full`} />
+          <h2 className='text-white text-2xl font-semibold  ' >{item.username}</h2> </div>
   ))
  }
         <div className=''   >
