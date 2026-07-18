@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { BsThreeDotsVertical } from "react-icons/bs";
 import Grid from '@mui/material/Grid';
 import Searchbar from '../Componets/Searchbar';
@@ -12,7 +12,20 @@ import UserList from '../Layouts/UserList';
 import BlockedList from '../Layouts/BlockedList';
 import MyGroupList from '../Layouts/MyGroupList';
 import FriendRequestList from '../Layouts/FriendRequestList';
+import { useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 const Home = () => {
+  let navigate=useNavigate()
+
+  let data=useSelector(state=>(state.activeuser.value)
+  )
+  useEffect(()=> {
+   if (data===null)
+   {
+    // console.log("data nai");
+      navigate("/")
+   }
+  },[])
   return (
     <div className='py-6'>
       <Grid container spacing={2}>

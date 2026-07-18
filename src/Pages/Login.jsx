@@ -180,7 +180,9 @@ toast.error("invalid-credentials")}
             toast.success("Login Successfully")
             setLoader(false)
                 navigate("/Home")
-                dispatch(activeuser(userCredential.user ))
+                dispatch(activeuser())
+                localStorage.setItem("userinfo",JSON.stringify(userCredential.user ))
+              
                 
           }
      else {

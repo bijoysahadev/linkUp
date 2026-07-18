@@ -6,16 +6,22 @@ import { LuMessageCircleMore } from "react-icons/lu";
 import { IoNotificationsOff } from "react-icons/io5";
 import { IoSettingsOutline } from "react-icons/io5";
 import { LuLogOut } from "react-icons/lu";
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { getDatabase, ref, onValue } from "firebase/database";
 import { useSelector } from 'react-redux';
 const Sidebar = () => {
   let location = useLocation()
+  let navigfate=useNavigate()
   let active = (location.pathname.replace("/", ""));
   let [alluser,setAlluser]=useState([])
   const db = getDatabase()
    let data=useSelector(state=>state.activeuser.value)
-   
+   let handleLogout = ()=> {
+    // console.log("clicked");
+    localStorage.removeItem("userinfo")
+    alert("Do YOu Wanna LOgout For Sure")
+    navigfate("/")
+   }
    
     useEffect(()=> {
       const starCountRef = ref(db, 'userlist/' );
@@ -79,7 +85,7 @@ const Sidebar = () => {
           </ul>
         </div>
         <div>
-          <ul>
+          <ul onClick={handleLogout} >
             <Link to="Logout" >
             <li className={`text-5xl   relative  after:absolute after:left-[67px] after:top-1/2  after:w-[160px] after:h-16  ${active=="Logout" ? "after:bg-[white] " : "after:bg-transparent"} after:content-[""]  after:rounded-l-md ${active=="Logout" ? "text-[#5F35F5]" : "text-white"}  after:-translate-1/2   before:absolute before:top-1/2 before:-translate-y-1/2  before:-right-25 ${active=="Logout" ? "before:bg-[#5F35F5]" : "before:bg-transparent"} before:w-[10px] before:h-16 before:content-[""]  before:rounded-l-xl  before:z-19 `}>  <LuLogOut className='relative top-0 left-0 z-10' />  </li></Link>
           </ul>
