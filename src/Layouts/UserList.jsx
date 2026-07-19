@@ -23,7 +23,7 @@ onValue(starCountRef, (snapshot) => {
   let arr=[]
    snapshot.forEach(item=> {
  
-      if (item.val().email!=data.email) {
+      if (item.key!=data.uid) {
        arr.push(item.val())
       
       }

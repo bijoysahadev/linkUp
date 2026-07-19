@@ -109,23 +109,25 @@ const Regestration = () => {
     setLoader(true)
     createUserWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
-        console.log(userCredential.user);
-        setLoader(false)
-        toast.success("Register Succesfully")
-       
-      }).then ((userCredential)=> {
-         sendEmailVerification(auth.currentUser)
+        console.log(userCredential.user.uid);
+
+             sendEmailVerification(auth.currentUser)
           .then(() => {
-            set(push(ref(db, 'userlist/' )), {
+            set(ref(db, 'userlist/'  + userCredential.user.uid), {
     username: name,
     email: email,
     profile_picture : "https://i.ibb.co.com/mVhLkdLD/avatar.webp"
-  });
+
+  })
+  ;
         
             
           setLoader(false);
           toast.success("Regestration Successfully")
           });
+       
+    
+ 
       })
 
       .catch((error) => {

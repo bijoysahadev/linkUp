@@ -31,7 +31,7 @@ const Sidebar = () => {
       // arr.push(item.val())
       console.log();
        console.log();
-      if (item.val().email==data.email){
+      if (item.key==data.uid){
         arr.push(item.val())
 
       }
