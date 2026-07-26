@@ -2,7 +2,7 @@ import React from 'react'
 import Image from '../Componets/Image';
 import cr7 from '../assets/cr7.png.jpg';
     
-const MakeProfile = ({mainClassname,profileImage,profileName,profilStatus,buttonText}) => {
+const MakeProfile = ({mainClassname,profileImage,profileName,profilStatus,onclick,buttonText}) => {
   return (
    <div className={`flex items-center justify-between border-b border-black/30 pb-2 ${mainClassname} `} >
     <div className='flex items-center gap-x-3' >
@@ -16,7 +16,7 @@ const MakeProfile = ({mainClassname,profileImage,profileName,profilStatus,button
 
      </div>
     </div>
-     <button className='text-sm text-white px-5 font-base py-0.5 rounded-md bg-[#5F35F5]' >{buttonText}</button>
+     <button onClick={onclick} className='text-sm text-white px-5 font-base py-0.5 rounded-md bg-[#5F35F5]' >{buttonText}</button>
     </div>
   )
 }

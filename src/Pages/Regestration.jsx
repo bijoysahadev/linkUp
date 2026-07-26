@@ -108,12 +108,12 @@ const Regestration = () => {
     }
     setLoader(true)
     createUserWithEmailAndPassword(auth, email, password)
-      .then((userCredential) => {
-        console.log(userCredential.user.uid);
+      .then((firebaseResult) => {
+        console.log(firebaseResult.user.uid);
 
              sendEmailVerification(auth.currentUser)
           .then(() => {
-            set(ref(db, 'userlist/'  + userCredential.user.uid), {
+            set(ref(db, 'userlist/'  + firebaseResult.user.uid), {
     username: name,
     email: email,
     profile_picture : "https://i.ibb.co.com/mVhLkdLD/avatar.webp"

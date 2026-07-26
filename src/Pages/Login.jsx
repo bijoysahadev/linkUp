@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Grid from '@mui/material/Grid';
 import Image from '../Componets/Image'
 import TextField from '@mui/material/TextField';
@@ -11,7 +11,7 @@ import { log } from 'firebase/firestore/pipelines';
 import { getAuth, signInWithEmailAndPassword  ,signInWithPopup, GoogleAuthProvider,sendPasswordResetEmail } from "firebase/auth";
 import { toast, ToastContainer } from 'react-toastify';
 import { CircularProgress } from 'react-loader-spinner';
-import { getDatabase, push, ref, set } from "firebase/database";
+import { getDatabase, onValue, push, ref, set } from "firebase/database";
 import { useDispatch } from 'react-redux';
 import { activeuser } from '../slices/userinfoslice';
 
@@ -75,6 +75,7 @@ const TextFieldCustomize = styled(TextField)({
 
 
 const Login = () => {
+    let [alluser,setAlluser]=useState([])
   const dispatch=useDispatch()
    const db = getDatabase();
   const auth = getAuth();
@@ -113,19 +114,49 @@ toast.error("invalid-credentials")}
    setShow(true)
     
   }
+  // write data starts here
+   useEffect(()=> {
+      const starCountRef = ref(db, 'userlist/' );
+  onValue(starCountRef, (snapshot) => {
+    let arr=[]
+     snapshot.forEach(item=> {
+   
+     
+       arr.push(item.val())
+      
+
+        
+     })
+     setAlluser(arr)
+  });
+    },[])
+    // write data ends here
   let  handleGoogle= ()=> {
     
 
   signInWithPopup(auth, provider)
-  .then((result) => {
-    set(push(ref(db, 'userlist/' )), {
-        username: result.user.displayName,
-        email: result.user.email,
+  .then((firebaseResult) => {
+ 
+    alluser.map(item=> {
+      if (item.email!=firebaseResult.user.email) {
+           set(ref(db, 'userlist/'  + firebaseResult.user.uid ), {
+        username: firebaseResult.user.displayName,
+        email: firebaseResult.user.email,
         profile_picture : "https://i.ibb.co.com/mVhLkdLD/avatar.webp"
-      });
+      }).then (()=> {
+       dispatch(activeuser(firebaseResult.user))
+                localStorage.setItem("userinfo",JSON.stringify(firebaseResult.user ))
+      })
+
+      }
+      console.log();
+      
+    })
+  
+           
             
-  navigate("/Home")
-    
+ 
+       navigate("/Home")
  
   }).catch((error) => {
     console.log(error);
@@ -174,14 +205,14 @@ toast.error("invalid-credentials")}
 
     }
      signInWithEmailAndPassword(auth, email, password)
-        .then((userCredential) => {
-          if  (userCredential.user.emailVerified) {
+        .then((firebaseResult) => {
+          if  (firebaseResult.user.emailVerified) {
 
             toast.success("Login Successfully")
             setLoader(false)
                 navigate("/Home")
-                dispatch(activeuser())
-                localStorage.setItem("userinfo",JSON.stringify(userCredential.user ))
+                dispatch(activeuser(firebaseResult.user))
+                localStorage.setItem("userinfo",JSON.stringify(firebaseResult.user ))
               
                 
           }

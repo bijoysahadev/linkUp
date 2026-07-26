@@ -4,18 +4,23 @@ import Searchbar from '../Componets/Searchbar'
 import TittleList from '../Componets/TittleList'
 import Image from '../Componets/Image';
 import cr7 from '../assets/cr7.png.jpg';
-import { getDatabase, ref, onValue } from "firebase/database";
+import { getDatabase, ref, onValue,set  } from "firebase/database";
 import { useSelector } from 'react-redux';
+
 const UserList = () => { 
   // const data=useSelector(state=>(state.activeuser.value)
   // )
 
+
+  
+
+  
   
   const db = getDatabase()
   let [alluser,setAlluser]=useState([])
   let data=useSelector(state=>state.activeuser.value
 )
-  console.log();
+
   
   useEffect(()=> {
     const starCountRef = ref(db, 'userlist/' );
@@ -24,7 +29,7 @@ onValue(starCountRef, (snapshot) => {
    snapshot.forEach(item=> {
  
       if (item.key!=data.uid) {
-       arr.push(item.val())
+       arr.push({...item.val(),id:item.key})
       
       }
       
@@ -32,6 +37,20 @@ onValue(starCountRef, (snapshot) => {
    setAlluser(arr)
 });
   },[])
+
+    let handleAddFriend=(item)=> {
+  //  console.log("clicked");
+    // console.log(item);
+    
+  set(ref(db, 'friendrequestlist/'), {
+   sendername : data.displayName,
+   senderid: data.uid,
+   receievename: item.username,
+   recevierid: item.id
+  });
+}
+
+
   return (
       <div> 
          <Searchbar />
@@ -41,7 +60,7 @@ onValue(starCountRef, (snapshot) => {
              
               {
                 alluser.map(item=> (
-                  <MakeProfile mainClassname={`py-3`} profileImage={item.profile_picture} profileName={item.username} profilStatus={`Hi Guys, Wassup! Suuuuuiiiii`} buttonText={`Join`} />
+                  <MakeProfile  mainClassname={`py-3`} profileImage={item.profile_picture} profileName={item.username} profilStatus={`Hi Guys, Wassup! Suuuuuiiiii`} buttonText= {`Join`} onclick={()=>handleAddFriend(item)} />
             
                 ))
               }
