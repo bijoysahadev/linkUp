@@ -29,8 +29,7 @@ const Sidebar = () => {
     let arr=[]
      snapshot.forEach(item=> {
       // arr.push(item.val())
-      console.log();
-       console.log();
+    
       if (item.key==data.uid){
         arr.push(item.val())
 

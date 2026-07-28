@@ -138,14 +138,14 @@ toast.error("invalid-credentials")}
   .then((firebaseResult) => {
  
     alluser.map(item=> {
-      if (item.email!=firebaseResult.user.email) {
-           set(ref(db, 'userlist/'  + firebaseResult.user.uid ), {
-        username: firebaseResult.user.displayName,
-        email: firebaseResult.user.email,
+      if (item.email!=userCredential.user.email) {
+           set(ref(db, 'userlist/'  + userCredential.user.uid ), {
+        username: userCredential.user.displayName,
+        email: userCredential.user.email,
         profile_picture : "https://i.ibb.co.com/mVhLkdLD/avatar.webp"
       }).then (()=> {
        dispatch(activeuser(firebaseResult.user))
-                localStorage.setItem("userinfo",JSON.stringify(firebaseResult.user ))
+                localStorage.setItem("userinfo",JSON.stringify(userCredential.user ))
       })
 
       }
@@ -174,64 +174,46 @@ toast.error("invalid-credentials")}
     setEmail(e.target.value)
     setEmailError("")
   }
-  let handleLogin = () => {
-
+    let handleLogin = () => {
     if (!email) {
-      setEmailError("value nai")
-
+      setEmailError("Give me a email");
+    } else if (!emailRegex.test(email)) {
+      setEmailError("vaild Email");
     }
     if (!password) {
-      setPasswordError("give me your password")
-    }
-    else if (!emailRegex.test(email)) {
-      setEmailError("give me a valid email")
-    }
-    if (!passwordRegex.test(password)) {
-      setPasswordError("Enter a valid password")
-      setLoader(false)
-    } if (!passwordRegex.test(password)) {
-      setPasswordError("Enter a valid password")
-
+      setPasswordError("Give me your Password");
     }
     if (email && password && emailRegex.test(email)) {
-      // console.log("login successfull");
-  setLoader(true);
- 
-      // 
-  
-     
+      // firebase code
+      setLoader(true);
+      signInWithEmailAndPassword(auth, email, password)
+        .then((userCredential) => {
+          if (userCredential.user.emailVerified) {
+              console.log(userCredential.user);
+                    
+            toast.success("Login Successfully");
+            setLoader(false);
+            navigate("/home");
+           
+            dispatch(activeuser(userCredential.user))
+            localStorage.setItem("userinfo",JSON.stringify(firebaseResult.user))
+           
 
-      // 
 
-    }
-     signInWithEmailAndPassword(auth, email, password)
-        .then((firebaseResult) => {
-          if  (firebaseResult.user.emailVerified) {
-
-            toast.success("Login Successfully")
-            setLoader(false)
-                navigate("/Home")
-                dispatch(activeuser(firebaseResult.user))
-                localStorage.setItem("userinfo",JSON.stringify(firebaseResult.user ))
-              
-                
+          } else {
+            toast.error("Please Verify Your Email");
+            setLoader(false);
           }
-     else {
-      toast.error("Please verify Your Email")
-       setLoader(false)
-     }
         })
         .catch((error) => {
-          setLoader(false)
+          setLoader(false);
           const errorCode = error.code;
-           console.log(errorCode);
-           if (errorCode.includes("auth/invalid-credential"))
-            toast.error("invalid credientails");
-            
-            
-
+          if (errorCode.includes("auth/invalid-credential")) {
+            toast.error("Invalid Credential");
+          }
         });
-  }
+    }
+  };
   return (
     <>  
     {

@@ -4,7 +4,7 @@ import Searchbar from '../Componets/Searchbar'
 import TittleList from '../Componets/TittleList'
 import Image from '../Componets/Image';
 import cr7 from '../assets/cr7.png.jpg';
-import { getDatabase, ref, onValue,set  } from "firebase/database";
+import { getDatabase, ref, onValue,set, push  } from "firebase/database";
 import { useSelector } from 'react-redux';
 
 const UserList = () => { 
@@ -21,6 +21,7 @@ const UserList = () => {
   let data=useSelector(state=>state.activeuser.value
 )
 
+  
   
   useEffect(()=> {
     const starCountRef = ref(db, 'userlist/' );
@@ -42,9 +43,9 @@ onValue(starCountRef, (snapshot) => {
   //  console.log("clicked");
     // console.log(item);
     
-  set(ref(db, 'friendrequestlist/'), {
+  set(push(ref(db, 'friendrequestlist/')), {
    sendername : data.displayName,
-   senderid: data.uid,
+   senderid: data.uid,   
    receievename: item.username,
    recevierid: item.id
   });
