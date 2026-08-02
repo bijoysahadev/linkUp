@@ -4,9 +4,20 @@ import Searchbar from '../Componets/Searchbar'
 import TittleList from '../Componets/TittleList'
 import Image from '../Componets/Image';
 import cr7 from '../assets/cr7.png.jpg';
-import { getDatabase, ref, onValue,set, push  } from "firebase/database";
+import { getDatabase, ref, onValue,set, push, remove  } from "firebase/database";
 import { useSelector } from 'react-redux';
 const FriendRequestList = () => {
+  let handleAccept=(item)=> {
+    // console.log(item);
+      set(push(ref(db, 'friends/')), {
+     ...item
+    
+      }).then(()=> {
+        remove(ref(db, 'friendrequestlist/'+ item.id ))
+      })
+  
+  }
+  
 
   let [friendrequest,setFriendrequest]=useState([])
   let data=useSelector(state=>state.activeuser.value
@@ -20,7 +31,7 @@ const FriendRequestList = () => {
      snapshot.forEach(item=> {
      if (data?.uid==item.val().recevierid) 
      {
-  arr.push({...item.val()})
+  arr.push({...item.val(),id:item.key})
      }
        
         
@@ -41,7 +52,8 @@ const FriendRequestList = () => {
            {
             friendrequest.map(item=>(
                  
-              <MakeProfile mainClassname={`py-3`} profileImage={cr7} profileName={item.sendername} profilStatus={`Hi Guys, Wassup! Suuuuuiiiii`} buttonText={`Join`} />
+              <MakeProfile mainClassname={`py-3`} profileImage={item.senderprofile
+} profileName={item.sendername} profilStatus={`Hi Guys, Wassup! Suuuuuiiiii`} buttonText={`Accept`} onclick={()=>handleAccept(item)}/>
             ))
            }
              
