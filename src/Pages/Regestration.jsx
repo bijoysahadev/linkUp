@@ -6,7 +6,7 @@ import Login from "../assets/signUp.png";
 import Button from '@mui/material/Button';
 import styled from '@emotion/styled';
 import { Link } from 'react-router-dom';
-import { getAuth, createUserWithEmailAndPassword, sendEmailVerification } from "firebase/auth";
+import { getAuth, createUserWithEmailAndPassword, sendEmailVerification,updateProfile  } from "firebase/auth";
 import { log } from 'firebase/firestore/pipelines';
 import { CircularProgress } from 'react-loader-spinner';
 import { toast, ToastContainer } from 'react-toastify';
@@ -58,7 +58,9 @@ const TextFieldCustomize = styled(TextField)({
 
 
 const Regestration = () => {
+  
    const db = getDatabase();
+     const dispatch=useDispatch()
   const auth = getAuth();
   let [loader, setLoader] = useState(false)
   let [email, setEmail] = useState("")
@@ -111,7 +113,12 @@ const Regestration = () => {
       .then((firebaseResult) => {
         console.log(firebaseResult.user.uid);
 
-             sendEmailVerification(auth.currentUser)
+    updateProfile(auth.currentUser, {
+  displayName: name, photoURL: "https://i.ibb.co.com/mVhLkdLD/avatar"
+}).then(() => {
+  // Profile updated!
+  // ...
+        sendEmailVerification(auth.currentUser)
           .then(() => {
             set(ref(db, 'userlist/'  + firebaseResult.user.uid), {
     username: name,
@@ -119,14 +126,23 @@ const Regestration = () => {
     profile_picture : "https://i.ibb.co.com/mVhLkdLD/avatar.webp"
 
   })
+  
   ;
+   dispatch(activeuser(firebaseResult.user))
+                  localStorage.setItem("userinfo",JSON.stringify(userCredential.user ))
         
             
           setLoader(false);
           toast.success("Regestration Successfully")
           });
        
-    
+       
+}).catch((error) => {
+  // An error occurred
+  // ...
+  console.log("erroor here");
+  
+});
  
       })
 

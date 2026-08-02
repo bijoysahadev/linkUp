@@ -10,12 +10,30 @@ import { useSelector } from 'react-redux';
 const UserList = () => { 
   // const data=useSelector(state=>(state.activeuser.value)
   // )
+// 
 
+  let [concactFrinedRequest,setConcactFrinedRequestt]=useState([])
+   useEffect(()=> {
+       const starCountRef = ref(db, 'friendrequestlist/' );
+   onValue(starCountRef, (snapshot) => {
+     let arr=[]
+      snapshot.forEach(item=> {
+    
+   arr.push(item.val().recevierid + item.val().senderid )
+  
+  
+        
+         
+     
+         
+      })
+      setConcactFrinedRequestt(arr)
+   });
+     },[])
 
+  console.log(concactFrinedRequest);
   
-
-  
-  
+  // 
   const db = getDatabase()
   let [alluser,setAlluser]=useState([])
   let data=useSelector(state=>state.activeuser.value
@@ -45,9 +63,12 @@ onValue(starCountRef, (snapshot) => {
     
   set(push(ref(db, 'friendrequestlist/')), {
    sendername : data.displayName,
-   senderid: data.uid,   
+   senderid: data.uid, 
+   senderprofile: data.photoURL,   
    receievename: item.username,
-   recevierid: item.id
+   recevierid: item.id,
+   recevierprofile: item.profile_picture,
+
   });
 }
 
@@ -61,7 +82,9 @@ onValue(starCountRef, (snapshot) => {
              
               {
                 alluser.map(item=> (
-                  <MakeProfile  mainClassname={`py-3`} profileImage={item.profile_picture} profileName={item.username} profilStatus={`Hi Guys, Wassup! Suuuuuiiiii`} buttonText= {`Join`} onclick={()=>handleAddFriend(item)} />
+                  concactFrinedRequest.includes(item.id + item.uid) ||  concactFrinedRequest.includes( item.uid + item.id  )
+                  ?   <MakeProfile  mainClassname={`py-3`} profileImage={item.profile_picture} profileName={item.username} profilStatus={`Hi Guys, Wassup! Suuuuuiiiii`} buttonText= {`Join`} onclick={()=>handleAddFriend(item)} />:<MakeProfile  mainClassname={`py-3`} profileImage={item.profile_picture} profileName={item.username} profilStatus={`Hi Guys, Wassup! Suuuuuiiiii`} buttonText= {`Pending`} onclick={()=>handleAddFriend(item)} />
+                
             
                 ))
               }
