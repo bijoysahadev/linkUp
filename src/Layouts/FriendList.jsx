@@ -5,7 +5,10 @@ import TittleList from '../Componets/TittleList'
 import Image from '../Componets/Image';
 import cr7 from '../assets/cr7.png.jpg';
 import { getDatabase, ref, onValue,set, push  } from "firebase/database";
+import { useSelector } from 'react-redux';
 const FriendList = () => {
+    let data=useSelector(state=>state.activeuser.value
+)
     const db = getDatabase()
   let [alluser,setAlluser]=useState([])
     useEffect(()=> {
@@ -36,7 +39,7 @@ const FriendList = () => {
          {
           alluser.map((item)=> (
                          
-              <MakeProfile mainClassname={`py-3`} profileImage={cr7} profileName={`Cristino Ronaldo`} profilStatus={`Hi Guys, Wassup! Suuuuuiiiii`} buttonText={`Block`} />
+              <MakeProfile mainClassname={`py-3`} profileImage={data?.uid==item.recevierid ?item.senderprofile :item.recevierprofile} profileName={data?.uid==item.recevierid ?item.sendername :item.receievename} profilStatus={`Hi Guys, Wassup! Suuuuuiiiii`} buttonText={`Block`} />
           ))
          }
            

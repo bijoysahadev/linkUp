@@ -82,7 +82,7 @@ onValue(starCountRef, (snapshot) => {
              
               {
                 alluser.map(item=> (
-                  concactFrinedRequest.includes(item.id + item.uid) ||  concactFrinedRequest.includes( item.uid + item.id  )
+                  concactFrinedRequest.includes(item.id + data.uid) ||  concactFrinedRequest.includes( data.uid + item.id  )
                   ?   <MakeProfile  mainClassname={`py-3`} profileImage={item.profile_picture} profileName={item.username} profilStatus={`Hi Guys, Wassup! Suuuuuiiiii`} buttonText= {`Join`} onclick={()=>handleAddFriend(item)} />:<MakeProfile  mainClassname={`py-3`} profileImage={item.profile_picture} profileName={item.username} profilStatus={`Hi Guys, Wassup! Suuuuuiiiii`} buttonText= {`Pending`} onclick={()=>handleAddFriend(item)} />
                 
             
