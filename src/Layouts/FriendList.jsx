@@ -16,10 +16,13 @@ const FriendList = () => {
      onValue(starCountRef, (snapshot) => {
        let arr=[]
         snapshot.forEach(item=> {
-      
-     arr.push(item.val() )
-    console.log(item.val());
+       if(data.uid==item.val().recevierid  || data.uid==item.val().senderid
+ )
+ {
+ arr.push(item.val() )
+ }
     
+  
     
     
           
