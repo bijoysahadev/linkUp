@@ -6,6 +6,7 @@ import Image from '../Componets/Image';
 import cr7 from '../assets/cr7.png.jpg';
 import { getDatabase, ref, onValue,set, push  } from "firebase/database";
 import { useSelector } from 'react-redux';
+import toast, { Toaster } from 'react-hot-toast';
 const FriendList = () => {
     let data=useSelector(state=>state.activeuser.value
 )
@@ -48,6 +49,9 @@ const FriendList = () => {
             
       
           })
+          .then (()=>{
+            toast.success("Block Succesfull")
+          })
 
      }
      else  if (item.recevierid==data.uid) {
@@ -61,13 +65,17 @@ const FriendList = () => {
           
             
       
+          }).then (()=>{
+            toast.success("Block Succesfull")
           })
+        
 
      }
       
         }
   return (
     <div> 
+          <Toaster />
          <Searchbar />
          <div className='py-4  px-5  bg-red-300 rounded-[20px] shadow-[0_4px_4px_0px_rgba(0,0,0,0.25)]' >
              <TittleList className={`py-3`} tittle={`Friend List`} />
