@@ -6,7 +6,7 @@ import Image from '../Componets/Image';
 import cr7 from '../assets/cr7.png.jpg';
 import { getDatabase, ref, onValue, set, push } from "firebase/database";
 import { useSelector } from 'react-redux';
-
+import toast, { Toaster } from 'react-hot-toast';
 const UserList = () => {
   // const data=useSelector(state=>(state.activeuser.value)
   // )
@@ -88,12 +88,15 @@ const UserList = () => {
       recevierid: item.id,
       recevierprofile: item.profile_picture,
 
+    }).then(()=>{
+      toast.success("Send Friend Request Successfully")
     });
   }
 
 
   return (
     <div>
+       <Toaster />
       <Searchbar />
       <div className='py-4  px-5  bg-red-300 rounded-[20px] shadow-[0_4px_4px_0px_rgba(0,0,0,0.25)]' >
         <TittleList className={`py-3`} tittle={`User List`} />

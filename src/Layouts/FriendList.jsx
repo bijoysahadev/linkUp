@@ -43,6 +43,7 @@ const FriendList = () => {
           alluser.map((item)=> (
                          
               <MakeProfile mainClassname={`py-3`} profileImage={data?.uid==item.recevierid ?item.senderprofile :item.recevierprofile} profileName={data?.uid==item.recevierid ?item.sendername :item.receievename} profilStatus={`Hi Guys, Wassup! Suuuuuiiiii`} buttonText={`Block`} />
+              
           ))
          }
            
