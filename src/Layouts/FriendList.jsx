@@ -4,7 +4,7 @@ import Searchbar from '../Componets/Searchbar'
 import TittleList from '../Componets/TittleList'
 import Image from '../Componets/Image';
 import cr7 from '../assets/cr7.png.jpg';
-import { getDatabase, ref, onValue,set, push  } from "firebase/database";
+import { getDatabase, ref, onValue,set, push, remove  } from "firebase/database";
 import { useSelector } from 'react-redux';
 import toast, { Toaster } from 'react-hot-toast';
 const FriendList = () => {
@@ -20,7 +20,7 @@ const FriendList = () => {
        if(data.uid==item.val().recevierid  || data.uid==item.val().senderid
  )
  {
- arr.push(item.val() )
+ arr.push({...item.val() , id:item.key})
  }
     
   
@@ -35,7 +35,7 @@ const FriendList = () => {
      });
        },[])
        let handleBlock=(item)=> {
-        console.log(item);
+        // console.log(item);
         // console.log(data.displayName);
      if(   item.id==data.uid){
          set(push(ref(db, 'blocks/')), {
@@ -50,6 +50,7 @@ const FriendList = () => {
       
           })
           .then (()=>{
+          remove(ref(db, `friends/${item.id}`));
             toast.success("Block Succesfull")
           })
 
@@ -66,6 +67,7 @@ const FriendList = () => {
             
       
           }).then (()=>{
+            remove(ref(db, `friends/${item.id}`));
             toast.success("Block Succesfull")
           })
         
