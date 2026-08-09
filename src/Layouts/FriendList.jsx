@@ -33,6 +33,39 @@ const FriendList = () => {
         setAlluser(arr)
      });
        },[])
+       let handleBlock=(item)=> {
+        console.log(item);
+        // console.log(data.displayName);
+     if(   item.id==data.uid){
+         set(push(ref(db, 'blocks/')), {
+          block:item.sendername,
+          blockid:item.senderid,
+          blockprofile:item.senderprofile,
+          blockby:item.receievename,
+          blockbyid:item.recevierid,
+          blockbyprofile:item.recevierprofile
+          
+            
+      
+          })
+
+     }
+     else  if (item.recevierid==data.uid) {
+      set(push(ref(db, 'blocks/')), {
+          block:item.receievename,
+          blockid:item.recevierid,
+          blockprofile:item.recevierprofile,
+          blockby:item.sendername,
+          blockbyid:item.senderid,
+          blockbyprofile:item.senderprofile
+          
+            
+      
+          })
+
+     }
+      
+        }
   return (
     <div> 
          <Searchbar />
@@ -42,9 +75,11 @@ const FriendList = () => {
          {
           alluser.map((item)=> (
                          
-              <MakeProfile mainClassname={`py-3`} profileImage={data?.uid==item.recevierid ?item.senderprofile :item.recevierprofile} profileName={data?.uid==item.recevierid ?item.sendername :item.receievename} profilStatus={`Hi Guys, Wassup! Suuuuuiiiii`} buttonText={`Block`} />
-              
+              <MakeProfile mainClassname={`py-3`} profileImage={data?.uid==item.recevierid ?item.senderprofile :item.recevierprofile} profileName={data?.uid==item.recevierid ?item.sendername :item.receievename} profilStatus={`Hi Guys, Wassup! Suuuuuiiiii`} buttonText={`Block`}
+              onclick= {()=> handleBlock(item)}/>
+            
           ))
+           
          }
            
             </div>
