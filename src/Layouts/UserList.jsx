@@ -15,6 +15,7 @@ const UserList = () => {
   let [concactFrinedRequest, setConcactFrinedRequestt] = useState([])
 
   let [concactFrined, setConcactFrined] = useState([])
+  let [concactblock, setConcactBlock] = useState([])
   useEffect(() => {
     const starCountRef = ref(db, 'friendrequestlist/');
     onValue(starCountRef, (snapshot) => {
@@ -75,6 +76,21 @@ const UserList = () => {
       setAlluser(arr)
     });
   }, [])
+  useEffect(() => {
+    const starCountRef = ref(db, 'blocks/');
+    onValue(starCountRef, (snapshot) => {
+      let arr = []
+      snapshot.forEach(item => {
+
+        if (item.key != data.uid) {
+          arr.push({ ...item.val().blockid  + item.val().blockbyid  })
+
+        }
+
+      })
+      setConcactBlock(arr)
+    });
+  }, [])
 
   let handleAddFriend = (item) => {
     //  console.log("clicked");
@@ -104,7 +120,11 @@ const UserList = () => {
 
           {
             alluser.map(item => (
-              concactFrined.includes(data?.uid + item.id) || concactFrined.includes(item.id + data?.uid) ? <MakeProfile mainClassname={`py-3`} profileImage={item.profile_picture} profileName={item.username} profilStatus={`Hi Guys, Wassup! Suuuuuiiiii`} buttonText={`Friend`}  /> : concactFrinedRequest.includes(item.id + data?.uid) || concactFrinedRequest.includes(data?.uid + item.id)
+         concactblock.includes(item.id + data.uid) || concactblock.includes(data.uid + item.id)
+               ?
+    <MakeProfile mainClassname={`py-3`} profileImage={item.profile_picture} profileName={item.username} profilStatus={`Hi Guys, Wassup! Suuuuuiiiii`} buttonText={`Unblock`} onclick={() => handleAddFriend(item)} />
+               :
+                      concactFrined.includes(data?.uid + item.id) || concactFrined.includes(item.id + data?.uid) ? <MakeProfile mainClassname={`py-3`} profileImage={item.profile_picture} profileName={item.username} profilStatus={`Hi Guys, Wassup! Suuuuuiiiii`} buttonText={`Friend`}  /> : concactFrinedRequest.includes(item.id + data?.uid) || concactFrinedRequest.includes(data?.uid + item.id)
                 ?  <MakeProfile mainClassname={`py-3`} profileImage={item.profile_picture} profileName={item.username} profilStatus={`Hi Guys, Wassup! Suuuuuiiiii`} buttonText={`Pending`} onclick={() => handleAddFriend(item)} />
                 :
 
@@ -113,8 +133,8 @@ const UserList = () => {
                 
 
 
-
-            ))
+            )
+          )
           }
         </div>
       </div>
