@@ -55,7 +55,7 @@ const UserList = () => {
 
   // 
   const db = getDatabase()
-  let [alluser, setAlluser] = useState([])
+  let [alluser, setAlluser] = useState([]) 
   let data = useSelector(state => state.activeuser.value
   )
 

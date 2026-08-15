@@ -1,10 +1,12 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Grid from '@mui/material/Grid';
 import { BsThreeDotsVertical } from "react-icons/bs";
 import { ImCross } from "react-icons/im";
 import { getDatabase, ref, onValue, set, push } from "firebase/database";
 import toast, { Toaster } from 'react-hot-toast';
+
 const TittleList = ({tittle,className,addContent}) => {
+
   const db = getDatabase()
   let [popup,setPopup]=useState(false)
   let [groupname,setGroupname]=useState("")
@@ -12,7 +14,7 @@ const TittleList = ({tittle,className,addContent}) => {
     console.log(groupname);
       set(push(ref(db, 'mygroup/')), {
         groupname:groupname,
-        groupimage : "" ,
+        groupimage : "https://i.ibb.co.com/Hmcv9L7/Pngtree-vector-leader-of-group-icon-4022100.png" ,
 
     
         }).then(()=> {
