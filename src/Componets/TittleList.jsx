@@ -15,7 +15,7 @@ const TittleList = ({tittle,className,addContent}) => {
       set(push(ref(db, 'mygroup/')), {
         groupname:groupname,
         groupimage : "https://i.ibb.co.com/Hmcv9L7/Pngtree-vector-leader-of-group-icon-4022100.png" ,
-
+         groupmemebr : []   
     
         }).then(()=> {
           setPopup(false)
